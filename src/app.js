@@ -8,6 +8,7 @@ import { firebase } from './firebase/firebase';
 import configureStore from './store/configureStore';
 import AppRouter, { history } from './routers/AppRouter';
 import { login, logout } from './actions/auth';
+import { startSetExpenses } from './actions/expenses';
 import LoadingPage from './components/LoadingPage';
 
 const store = configureStore();
@@ -34,10 +35,12 @@ ReactDOM.render(<LoadingPage />,
 firebase.auth().onAuthStateChanged(user => {
   if(user) {
     store.dispatch(login(user.uid));
-    renderApp();
-    if(history.location.pathname === '/') {
-      history.push('/dashboard');
-    }
+    store.dispatch(startSetExpenses()).then(() => {
+      renderApp();
+      if(history.location.pathname === '/') {
+        history.push('/dashboard');
+      }
+    }); 
     
   } else {
     store.dispatch(logout());
