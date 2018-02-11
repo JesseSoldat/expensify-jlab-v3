@@ -40,3 +40,30 @@ export const startSetExpenses = () => {
       });
   };
 };
+
+//ADD-------------------------------------------------
+export const addExpense = (expense) => ({
+  type: 'ADD_EXPENSE',
+  expense
+});
+
+export const startAddExpense = (expenseData = {}) => {
+  return (dispatch, getState) => {
+    const uid = getState().auth.uid;
+    const {
+      description = '',
+      note = '',
+      createdAt = 0,
+      amount = 0
+    } = expenseData;
+    const expense = {description, note, createdAt, amount};
+    return database.ref(`${rootDatabase}/users/${uid}/expenses`)
+      .push(expense)
+      .then(ref => {
+        dispatch(addExpense({
+          id: ref.key,
+          ...expense
+        }));
+      });
+  };
+};

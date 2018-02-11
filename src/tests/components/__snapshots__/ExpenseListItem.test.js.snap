@@ -13,7 +13,7 @@ exports[`should render ExpenseListItem correctly 1`] = `
     <span
       className="list-item__sub-title"
     >
-      February 10th, 2018
+      February 11th, 2018
     </span>
   </div>
   <h3

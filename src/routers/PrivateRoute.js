@@ -4,16 +4,20 @@ import { Route, Redirect } from 'react-router-dom';
 import Header from '../components/Header';
 
 export const PrivateRoute = ({
-  component: Component
+  component: Component,
+  ...rest
 }) => (
-  true ? (
-    <div>
-      <Header />
-      <Component />
-    </div>
-  ) : (
-    <Redirect to="/" />
-  )
-)
+   <Route {...rest} component={(props) => (
+     true ? (
+       <div>
+         <Header />
+         <Component {...props} />
+       </div>
+     ) : (
+       <Redirect to="/" />
+     )
+   )}
+   />
+);
 
 export default PrivateRoute;
